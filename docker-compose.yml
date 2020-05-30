@@ -1,0 +1,30 @@
+version: '3.7'
+networks:
+  openvpn:
+    ipam:
+      driver: default
+    name: openvpn
+services:
+  openvpn:
+    image: ${IMAGE_NAME:-morkid/openvpn:latest}
+    container_name: openvpn
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-8000}:80"
+      - "${HTTPS_PORT:-8443}:443"
+      - "${SSH_PORT:-2244}:22"
+      - "${VPN_PORT:-1194}:1194/tcp"
+      - "${VPN_PORT:-1194}:1194/udp"
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=${TZ:-Asia/Jakarta}
+    volumes:
+      - ./data/openvpn:/etc/openvpn
+      - ./data/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./data/logs:/var/log
+    networks:
+      openvpn:
+        aliases:
+          - openvpn

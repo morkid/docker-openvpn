@@ -1,0 +1,15 @@
+/*
+!/.gitignore
+!/data/
+!/config/
+!/docker-compose.yml
+!/init.sh
+!/cleanup.sh
+!/.env.example
+!/Dockerfile
+!/docker-openvpn/
+!docker-openvpn
+!/nginx/
+!/.gitmodules
+!/bin/
+!/README.md

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+CLIENT_DIR=${CLIENT_DIR:-/etc/openvpn/clients}
+CLIENT_NAME=${CLIENT_NAME:-}
+
+get_client_name () {
+	read -p "Client name: " CLIENT_NAME
+	[ -z "$CLIENT_NAME" ] && get_client_name
+}
+
+get_client_name
+mkdir -p $CLIENT_DIR
+easyrsa build-client-full $CLIENT_NAME nopass
+ovpn_getclient $CLIENT_NAME > $CLIENT_DIR/$CLIENT_NAME.ovpn
+echo "Client config was generated: $CLIENT_DIR/$CLIENT_NAME.ovpn"
